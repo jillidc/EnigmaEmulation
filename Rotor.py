@@ -37,21 +37,27 @@ reflect = "YRUHQSLDPXNGOKMIEBFZCWVJAT"
 def letter(index):
     return chr(index+ord('A'))
 
+def is_letter(char):
+    return (char >= 'A' and char <= 'Z') or (char >= 'a' and char <= 'z')
+
 def num(letter):
-    return ord(letter) - ord('A')
+    if letter >= 'A' and letter <= 'Z':
+        return ord(letter) - ord('A')
+    else:
+        return ord(letter) - ord('a')
 
 Rotor1 = Rotor(wiring1, 6, "Q", None)
 Rotor2 = Rotor(wiring2, 3, "Q", Rotor1)
 Rotor3 = Rotor(wiring3, 7, "Q", Rotor2)
 Reflector = Rotor(reflect, 0, "Q", None)
 
-text = "WewilladvancetomorrowHeilShitler"
-text = text.upper()
-
+text = "We will advance tomorrow. Heil Shitler"
 output = ""
 n = 0
 
 for char in text:
+    if not is_letter(char):
+        continue
     char = num(char)
     Rotor3.step()
     char = Rotor3.encode(char)
